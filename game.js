@@ -6,7 +6,7 @@ var myScore;
 
 function startGame() {
   myGamePiece = new component(30, 30, "red", 10, 120);
-  myGamePiece.gravity = 0.05;
+  myGamePiece.gravity = 0;
   myScore = new component("30px", "Consolas", "black", 280, 40, "text");
   myGameArea.start();
 }
@@ -103,10 +103,10 @@ function updateGameArea() {
   var x, height, gap, minHeight, maxHeight, minGap, maxGap;
   for (i = 0; i < myObstacles.length; i += 1) {
     if (myGamePiece.crashWith(myObstacles[i])) {
-      return;
+      clearInterval(myGameArea.interval);
+      gameOver();
     }
   }
-
   myGameArea.clear();
   myGameArea.frameNo += 1;
   if (myGameArea.frameNo == 1 || everyinterval(150)) {
@@ -128,7 +128,7 @@ function updateGameArea() {
     myObstacles[i].x += -1;
     myObstacles[i].update();
   }
-  myScore.text = "SCORE: " + myGameArea.frameNo;
+  myScore.text = "Score: " + myGameArea.frameNo;
   myScore.update();
   myGamePiece.newPos();
   myGamePiece.update();
@@ -139,4 +139,28 @@ function everyinterval(n) {
     return true;
   }
   return false;
+}
+
+function gameOver() {
+  var userName = prompt("Please enter your name:");
+  let failedNameEntryCount = 0;
+  while (!userName) {
+    if (failedNameEntryCount === 0) {
+      userName = prompt("I said, please enter your name:");
+    }
+    if (failedNameEntryCount > 0) {
+      userName = prompt("Ok, I wont ask you again. Whats your name?");
+    }
+    failedNameEntryCount++;
+  }
+  const scores = JSON.parse(localStorage.getItem("scores"));
+  const newScores = JSON.stringify([
+    ...scores,
+    {
+      name: userName,
+      date: new Date(),
+      score: myGameArea.frameNo
+    }
+  ]);
+  localStorage.setItem("scores", newScores);
 }
