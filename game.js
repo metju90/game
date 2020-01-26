@@ -3,6 +3,7 @@
 var myGamePiece;
 var myObstacles = [];
 var myScore;
+var currentGameLevel = 1;
 
 function startGame() {
   myGamePiece = new component(30, 30, "red", 10, 120);
@@ -17,7 +18,14 @@ var myGameArea = {
     this.canvas.width = 480;
     this.canvas.height = 270;
     this.context = this.canvas.getContext("2d");
-    document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+    document
+      .getElementById("canvasWrapper")
+      .insertBefore(
+        this.canvas,
+        document.getElementById("canvasWrapper").childNodes[0]
+      );
+    document.getElementById("canvasWrapper").style.display = "block";
+    document.getElementById("clickToStart").style.display = "none";
     this.frameNo = 0;
     this.interval = setInterval(updateGameArea, 20);
   },
@@ -102,33 +110,54 @@ function component(width, height, color, x, y, type) {
 function updateGameArea() {
   var x, height, gap, minHeight, maxHeight, minGap, maxGap;
   for (i = 0; i < myObstacles.length; i += 1) {
+    // if game is over
     if (myGamePiece.crashWith(myObstacles[i])) {
+      document.querySelector("#canvasWrapper").classList.add("shake");
       clearInterval(myGameArea.interval);
-      gameOver();
+      updateLeaderBoard();
     }
   }
   myGameArea.clear();
-  myGameArea.frameNo += 1;
+  myScore.text = "Score: " + myGameArea.frameNo;
+  myGameArea.frameNo++;
   if (myGameArea.frameNo == 1 || everyinterval(150)) {
     x = myGameArea.canvas.width;
     minHeight = 20;
     maxHeight = 200;
-    height = Math.floor(
-      Math.random() * (maxHeight - minHeight + 1) + minHeight
-    );
-    minGap = 50;
-    maxGap = 200;
-    gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
-    myObstacles.push(new component(10, height, "green", x, 0));
-    myObstacles.push(
-      new component(10, x - height - gap, "green", x, height + gap)
-    );
+    if (currentGameLevel === 1) {
+      height = Math.floor(
+        Math.random() * (maxHeight - minHeight + 1) + minHeight
+      );
+      minGap = 50;
+      maxGap = 200;
+      gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
+      myObstacles.push(new component(10, height, "green", x, 0));
+      myObstacles.push(
+        new component(10, x - height - gap, "green", x, height + gap)
+      );
+    }
+
+    if (currentGameLevel === 2) {
+      minGap = 35;
+      maxGap = 70;
+      height = Math.floor(
+        Math.random() * (maxHeight - minHeight + 1) + minHeight
+      );
+      gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
+
+      myObstacles.push(new component(10, height, "green", x, 0));
+      myObstacles.push(
+        new component(10, x - height - gap, "green", x, height + gap)
+      );
+    }
   }
   for (i = 0; i < myObstacles.length; i += 1) {
     myObstacles[i].x += -1;
     myObstacles[i].update();
   }
-  myScore.text = "Score: " + myGameArea.frameNo;
+  if (myGameArea.frameNo > 200) {
+    currentGameLevel = 2;
+  }
   myScore.update();
   myGamePiece.newPos();
   myGamePiece.update();
@@ -141,26 +170,14 @@ function everyinterval(n) {
   return false;
 }
 
-function gameOver() {
-  var userName = prompt("Please enter your name:");
-  let failedNameEntryCount = 0;
-  while (!userName) {
-    if (failedNameEntryCount === 0) {
-      userName = prompt("I said, please enter your name:");
-    }
-    if (failedNameEntryCount > 0) {
-      userName = prompt("Ok, I wont ask you again. Whats your name?");
-    }
-    failedNameEntryCount++;
-  }
-  const scores = JSON.parse(localStorage.getItem("scores"));
-  const newScores = JSON.stringify([
-    ...scores,
-    {
-      name: userName,
-      date: new Date(),
-      score: myGameArea.frameNo
-    }
-  ]);
-  localStorage.setItem("scores", newScores);
+function updateLeaderBoard() {
+  const leaderBoard = JSON.parse(localStorage.getItem("leaderBoard")) || [];
+  const userScore = {
+    date: new Date(),
+    score: myGameArea.frameNo, // somehow
+    id: leaderBoard.length
+  };
+  const newLeaderBoard = JSON.stringify([...leaderBoard, userScore]);
+  localStorage.setItem("leaderBoard", newLeaderBoard);
+  loadScoreBoard({ newlyInsertedId: userScore.id });
 }
