@@ -1,21 +1,28 @@
 /** @format */
 
-function loadScoreBoard() {
+function loadScoreBoard({ newlyInsertedId = null }) {
   const leaderBoard = JSON.parse(localStorage.getItem("leaderBoard"));
   if (Array.isArray(leaderBoard)) {
     var template = document.createElement("template");
     const sortedLeaderBoard = leaderBoard.sort((a, b) => b.score - a.score);
 
     for (const record in sortedLeaderBoard) {
-      const date = new Date(leaderBoard[record].date);
+      const date = leaderBoard[record].date;
+      const score = leaderBoard[record].score;
+      const id = leaderBoard[record].id;
       template.innerHTML += `
-      <div class="tableRow">
+      <div class="tableRow ${
+        newlyInsertedId === id ? "activeRow" : ""
+      }" id=${id}>
         <span> ${parseFloat(record) + parseFloat(1)}</span>
-        <span> ${formatDate(date)}</span>
-        <span> ${leaderBoard[record].score}</span>
+        <span> ${formatDate(new Date(date))}</span>
+        <span> ${score}</span>
        </div> `;
     }
     document.querySelector("#table #tableBody").innerHTML = template.innerHTML;
+    if (newlyInsertedId) {
+      window.location.href = `#${newlyInsertedId}`;
+    }
   }
 }
 
