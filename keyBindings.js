@@ -16,23 +16,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
   document.querySelector("body").onkeyup = e => {
     switch (e.which) {
       case KEYS.A:
+      case KEYS.D:
+      case KEYS.ARROW_RIGHT:
       case KEYS.ARROW_LEFT: {
         myGamePiece.speedX = 0;
         break;
       }
 
       case KEYS.W:
-      case KEYS.ARROW_UP: {
-        myGamePiece.speedY = 0;
-        break;
-      }
-
-      case KEYS.D:
-      case KEYS.ARROW_RIGHT: {
-        myGamePiece.speedX = 0;
-        break;
-      }
-
+      case KEYS.ARROW_UP:
       case KEYS.S:
       case KEYS.ARROW_DOWN: {
         myGamePiece.speedY = 0;
