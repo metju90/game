@@ -48,25 +48,25 @@ document.addEventListener("DOMContentLoaded", function(event) {
     switch (e.which) {
       case KEYS.A:
       case KEYS.ARROW_LEFT: {
-        myGamePiece.speedX = -2;
+        myGamePiece.speedX = -2.5;
         break;
       }
 
       case KEYS.W:
       case KEYS.ARROW_UP: {
-        myGamePiece.speedY = -2;
+        myGamePiece.speedY = -2.5;
         break;
       }
 
       case KEYS.D:
       case KEYS.ARROW_RIGHT: {
-        myGamePiece.speedX = 2;
+        myGamePiece.speedX = 2.5;
         break;
       }
 
       case KEYS.S:
       case KEYS.ARROW_DOWN: {
-        myGamePiece.speedY = 2;
+        myGamePiece.speedY = 2.5;
         break;
       }
 
