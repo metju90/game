@@ -1,6 +1,6 @@
 /** @format */
 
-function loadScoreBoard({ newlyInsertedId = null }) {
+function loadScoreBoard({ newlyInsertedId }) {
   const leaderBoard = JSON.parse(localStorage.getItem("leaderBoard"));
   if (Array.isArray(leaderBoard)) {
     var template = document.createElement("template");
@@ -48,6 +48,6 @@ function formatDate(date) {
   var minutes = date.getMinutes();
   var seconds = date.getSeconds();
   return `
-  ${hours.toString().length === 1 ? `0${hours}` : hours}:${minutes}:${seconds},
+  ${hours.toString().length === 1 ? 0 : ''}${hours}:${minutes}:${seconds},
   ${day} ${monthNames[monthIndex]}`;
 }

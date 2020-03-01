@@ -5,10 +5,14 @@ var myObstacles = [];
 var myScore;
 var currentGameLevel = 1;
 
+// level 1 interval 150, lvl 2 135 etc.
+var intervalPerLevel = [150, 135, 120, 105, 90];
+
 function startGame() {
   myGamePiece = new component(30, 30, "red", 10, 120);
   myGamePiece.gravity = 0;
-  myScore = new component("30px", "Consolas", "black", 280, 40, "text");
+  myScore = new component("20px", "Consolas", "black", 350, 40, "text");
+  myLevel = new component("20px", "Consolas", "black", 350, 20, "text");
   myGameArea.start();
 }
 
@@ -119,9 +123,14 @@ function updateGameArea() {
   }
   myGameArea.clear();
   myScore.text = "Score: " + myGameArea.frameNo;
+  myLevel.text = "Level: " + currentGameLevel;
   myGameArea.frameNo++;
-  if (myGameArea.frameNo == 1 || everyinterval(150)) {
+  if (
+    myGameArea.frameNo === 1 ||
+    everyInterval(intervalPerLevel[currentGameLevel - 1])
+  ) {
     x = myGameArea.canvas.width;
+    console.log("uuwejjjaa....", currentGameLevel);
     minHeight = 20;
     maxHeight = 200;
     if (currentGameLevel === 1) {
@@ -129,17 +138,56 @@ function updateGameArea() {
         Math.random() * (maxHeight - minHeight + 1) + minHeight
       );
       minGap = 50;
-      maxGap = 200;
+      maxGap = 100;
       gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
-      myObstacles.push(new component(10, height, "green", x, 0));
+      myObstacles.push(new component(10, height, "blue", x, 100));
       myObstacles.push(
         new component(10, x - height - gap, "green", x, height + gap)
       );
     }
 
     if (currentGameLevel === 2) {
-      minGap = 35;
+      minGap = 45;
+      maxGap = 80;
+      height = Math.floor(
+        Math.random() * (maxHeight - minHeight + 1) + minHeight
+      );
+      gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
+
+      myObstacles.push(new component(10, height, "green", x, 0));
+      myObstacles.push(
+        new component(10, x - height - gap, "green", x, height + gap)
+      );
+    }
+    if (currentGameLevel === 3) {
+      minGap = 40;
       maxGap = 70;
+      height = Math.floor(
+        Math.random() * (maxHeight - minHeight + 1) + minHeight
+      );
+      gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
+
+      myObstacles.push(new component(10, height, "green", x, 0));
+      myObstacles.push(
+        new component(10, x - height - gap, "green", x, height + gap)
+      );
+    }
+    if (currentGameLevel === 4) {
+      minGap = 35;
+      maxGap = 60;
+      height = Math.floor(
+        Math.random() * (maxHeight - minHeight + 1) + minHeight
+      );
+      gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
+
+      myObstacles.push(new component(10, height, "green", x, 0));
+      myObstacles.push(
+        new component(10, x - height - gap, "green", x, height + gap)
+      );
+    }
+    if (currentGameLevel === 5) {
+      minGap = 32;
+      maxGap = 50;
       height = Math.floor(
         Math.random() * (maxHeight - minHeight + 1) + minHeight
       );
@@ -155,16 +203,27 @@ function updateGameArea() {
     myObstacles[i].x += -1;
     myObstacles[i].update();
   }
-  if (myGameArea.frameNo > 200) {
+  if (myGameArea.frameNo > 350) {
     currentGameLevel = 2;
   }
+  if (myGameArea.frameNo > 700) {
+    currentGameLevel = 3;
+  }
+  if (myGameArea.frameNo > 950) {
+    currentGameLevel = 4;
+  }
+  if (myGameArea.frameNo > 1300) {
+    currentGameLevel = 5;
+  }
+  myLevel.update();
   myScore.update();
   myGamePiece.newPos();
   myGamePiece.update();
 }
 
-function everyinterval(n) {
+function everyInterval(n) {
   if ((myGameArea.frameNo / n) % 1 == 0) {
+    console.log("...", myGameArea.frameNo, n);
     return true;
   }
   return false;
