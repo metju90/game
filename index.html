@@ -4,31 +4,66 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="./scoreboard.js" type="text/javascript"></script>
     <script src="./game.js" type="text/javascript"></script>
     <script src="./keyBindings.js" type="text/javascript"></script>
+    <script src="./scoreboard.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="./style.css" />
   </head>
-  <body onload="loadScoreBoard()"">
-    <button onclick="startGame()" id="clickToStart">
-      Click here to start the game
-    </button>
-    <div id="canvasWrapper">
-      <br />
-      <p>Use AWSD or your arrows to survive</p>
-    </div>
-    <div id="tableWrapper">
-      <p>Your personal best</p>
-      <div id="table">
-        <div id="tableHeader">
-            <span>#</span>
-            <span>Date</span>
-            <span>Score</span>
-        </div>
-        <div id="tableBody">
+  <body onload="loadScoreBoard({})"">
+    <div id="gameWrapper">
 
+      <button onclick="startGame()" id="clickToStart">
+          Click here to start the game
+        </button>
+        <div id="canvasWrapper">
+          <br />
+          <p>Use AWSD or your arrows to survive</p>
+        </div>
+        <div id="tableWrapper">
+          <p>Your personal best</p>
+          <div id="table">
+            <div id="tableHeader">
+              <span>#</span>
+              <span>Date</span>
+              <span>Score</span>
+            </div>
+            <div id="tableBody">
+              
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+
+      <div>
+        To do's next
+          <ul>
+                <li>Game UX:
+                    <ul>
+                      <li>Move in-game score and level info outside the canvas</li>
+                      <li>Improve the UX of when a level goes up.</li>
+                      <li> 
+                        Add better graphics
+                      </li>
+                      <li>Add sound</li>
+                    </ul>
+                </li>
+
+                <li>Style the page</li>
+                <li>Features:
+                  <ul>
+                    <li>Create "World's record" scoreboard - use web socket to get live data.</li>
+                    <li>Multiplayer in realtime:
+                      <ul>
+                        <li>Challenge your friends to play with.</li>
+                        <li>Via a URL, anyone can join the game.</li>
+                        <li>The scoreboard is uniquely created for the same, shared among friends game</li>
+                        <li>In real-time scoreboard update</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+          </ul>
+        </div>
+   
   </body>
 </html>

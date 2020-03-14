@@ -1,6 +1,6 @@
 /** @format */
 
-body {
+#gameWrapper {
   display: flex;
   justify-content: space-around;
   margin: 30px 15px;
@@ -19,6 +19,7 @@ canvas {
 
 #canvasWrapper {
   display: none;
+  cursor: none;
 }
 
 #scoreTable {
