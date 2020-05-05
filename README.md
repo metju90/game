@@ -1,6 +1,6 @@
 # Game
 
-This project is in it's early days. There are big plans for this game but currently it is not being worked on.
+This project is in it's early days. So early that it doesn't have a name yet. But it will be a web-based computer game. There are big plans for this game but currently it is not being worked on.
 
 
 ## Roadmap
