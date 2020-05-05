@@ -1,6 +1,6 @@
 # Game
 
-This project is in it's early days. There are big plans how HTML canvas works I ended up developing a small game with a big roadmap.
+This project is in it's early days. There are big plans for this game but currently it is not being worked on.
 
 
 ## Roadmap
